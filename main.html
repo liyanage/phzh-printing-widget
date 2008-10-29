@@ -1,0 +1,111 @@
+<!--
+	PHZH Printing Widget
+	futureLAB AG, Marc Liyanage <mliyanage@futurelab.ch>
+-->
+
+<html>
+
+<head>
+
+	<style type="text/css">
+		@import "css/main.css";
+		@import "css/localizedStyles.css";
+	</style>
+
+    <script type="text/javascript" src="progressindicator/progressindicator.js" charset="utf-8"></script>
+
+	<script type='text/javascript' src='js/prototype-1.6.0.3.js' charset='utf-8' />
+    <script type="text/javascript" src="js/main.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/localizedStrings.js" charset="utf-8"></script>
+
+    <script type="text/javascript" src="js/AppleClasses/AppleAnimator.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/AppleClasses/AppleButton.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/AppleClasses/AppleInfoButton.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/AppleClasses/AppleScrollbar.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/AppleClasses/AppleScrollArea.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/AppleClasses/AppleSlider.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/AppleClasses/ApplePrivate.js" charset="utf-8"></script>
+
+
+</head>
+
+<body onload="load();">
+
+	<div id="front">
+
+		<div id="front_regular">
+	
+			<div class="info" id="info" onclick="event.stopPropagation(); event.preventDefault();">
+				<script type="text/javascript">AppleCreateInfoButton('info', 'front', 'white', 'black', 'showBack');</script>
+			</div>
+	
+			<table>
+	
+				<tbody id="login">
+					<tr>
+						<th>Username</th>
+						<td>
+							<select name='userdomain'>
+								<option>orgphzh</option>
+								<option>studphzh</option>
+							</select><span style='color: black; font-weight: bold;'> \ </span><input id='username' type="text" name="username" onkeyup="updateUi()" /></td>
+					</tr>
+					<tr><th>Password</th><td><input id='password' type="password" name="password" onkeyup="updateUi()" /></td></tr>
+
+					<tr>
+						<th></th>
+						<td>
+							<div id="createPrinter"><script type="text/javascript">AppleCreateGlassButton('createPrinter', 'Create Printer', true, 'checkCredentials');</script></div>
+							<div id="deletePrinter"><script type="text/javascript">AppleCreateGlassButton('deletePrinter', 'Delete Printer', true, 'deletePrinter');</script></div>
+						</td>
+					</tr>
+
+			</table>
+	
+			<div id="error">ads</div>
+			<div id="status">asd</div>
+			
+			<img id='logo' src="img/phzh-logo.png" onclick="widget.openURL('https://id.phzh.ch/')"/>
+			<img id='progressindicator' src="progressindicator/img/prog1.png" />
+	
+		</div>
+        
+        <div id="front_utilities_missing">
+			<p><span id='utilities_missing'></span><script language="javascript">insertLocalizedString('Utilities missing', 'utilities_missing');</script></p>
+        	<p><a href="javascript:launchUtilitiesInstaller()"><span id="install_utilities"></span><script language="javascript">insertLocalizedString('Install Utilities', 'install_utilities');</script></a></p>
+        	<p><a href="javascript:load()"><span id="reload_widget"></span><script language="javascript">insertLocalizedString('Reload Widget', 'reload_widget');</script></a></p>
+        </div>
+
+    </div>
+
+    <div id="back">
+		<table>
+			<!--
+			<tr>
+				<th>Printserver</th>
+				<td class="configvalue">
+					<input id='printserver_source_dhcp' type='radio' name='printserver_source' value='dhcp' onclick='updatePrintserverSource(this.value)'> <label for='printserver_source_dhcp'>DHCP</label>
+					<input id='printserver_source_manual' type='radio' name='printserver_source' value='manual' onclick='updatePrintserverSource(this.value)'> <label for='printserver_source_manual'>Manuell</label>
+					<div id='printserver_host'>
+						<span id='printserver_host_dhcp'></span>
+						<textarea id='printserver_host_manual' name='printserver_host_manual' rows="3" cols="17"></textarea>
+					</div>
+				</td>
+			</tr>
+			<tr><th>Workgroup</th><td class="configvalue"><span id='printserver_workgroup'></span></td></tr>
+			-->
+			<tr><th>Widget Version</th><td class="configvalue"><span id='widget_version'></span></td></tr>
+		</table>
+		    
+    	<img id='futurelab_logo' src="img/futurelab_105x35_halo.png" onclick="widget.openURL('http://www.futurelab.ch?phzh-printing-widget')"/>
+        <div id="done">
+        	<script type="text/javascript">AppleCreateGlassButton('done', 'Done', true, commitPrefs);</script>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+
+

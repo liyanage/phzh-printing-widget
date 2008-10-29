@@ -1,0 +1,181 @@
+
+
+table, body, #back a {
+	margin: 0px;
+	color: white;
+	font-family: "Helvetica Neue";
+	font-size: 10pt;
+}
+
+tbody#restarttable, tbody#ppd_list, tbody#create, tbody#confirm {
+	display: none;
+}
+
+div#deletePrinter {
+	margin-top: 20px;
+}
+
+div#listPrinters {
+	border-style: solid none solid none;
+	border-color: #aaa;
+	border-width: 1px;
+	padding: 5px 0 5px 0;
+	width: 200px;
+}
+
+div#error {
+	color: red;
+	position: absolute;
+	left: 100px;
+	bottom: 70px;
+	width: 200px;
+}
+
+div#status {
+	position: absolute;
+	left: 100px;
+	bottom: 100px;
+	width: 200px;
+}
+
+/*
+select#printer {
+	display: block;
+}
+*/
+
+input {
+	margin: 0;
+}
+
+select#printer, select#ppd, select#manufacturer {
+	width: 200px;
+}
+
+
+input#username {
+	width: 100px;
+}
+
+input#password {
+	width: 200px;
+}
+
+
+
+
+#back input {
+	width: auto;
+}
+
+#info {
+	position: absolute;
+	right: 20px;
+	bottom: 20px;
+	width: 13px;
+	height: 13px;
+}
+
+
+#futurelab_logo {
+	position: absolute;
+	left: 20px;
+	bottom: 18px;
+	cursor: pointer;
+}
+
+#logo {
+	position: absolute;
+	left: 27px;
+	bottom: 22px;
+}
+
+#progressindicator {
+	position: absolute;
+	left: 103px;
+	bottom: 20px;
+}
+
+th {
+	text-align: right;
+	padding-right: 10px;
+}
+
+td {
+	padding: 2px 2px 2px 5px;
+}
+
+.configvalue {
+	font-family: "Courier";
+}
+
+#done {
+	position: absolute;
+	right: 5px;
+	bottom: 22px;
+}
+
+#back {
+    background: url(file:../img/back.png) no-repeat top left;
+	display: none;
+}
+
+#back td {
+	border: 1px solid #555;
+}
+
+#front th {
+	width: 60px;
+}
+
+#back th {
+	width: 120px;
+}
+
+table {
+	width: 85%;
+}
+
+
+#front {
+    background: url(file:../img/front.png) no-repeat top left;
+	display: block;
+}
+
+#front, #back {
+	padding: 20px;
+	width: 350px;
+	height: 280px;
+}
+
+#backImg {
+	position: absolute;
+	display: block;
+}
+
+#frontImg {
+	position: absolute;
+	display: block;
+}
+
+#printer {
+	width: 300px;
+}
+
+
+#front_utilities_missing {
+	display: none;
+	width: 300px;
+	margin: 10px;
+}
+
+#printserver_host {
+	border: 1px solid #555;
+	border-style: solid none none none;
+	margin: 5px 0 0 0;
+}
+
+
+#back td {
+	overflow: hidden;
+}

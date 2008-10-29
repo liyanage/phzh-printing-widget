@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>AllowFileAccessOutsideOfWidget</key>
+	<true/>
+	<key>AllowFullAccess</key>
+	<true/>
+	<key>AllowInternetPlugins</key>
+	<false/>
+	<key>AllowJava</key>
+	<true/>
+	<key>AllowMultipleInstances</key>
+	<false/>
+	<key>AllowNetworkAccess</key>
+	<true/>
+	<key>AllowSystem</key>
+	<true/>
+	<key>BackwardCompatibleClassLookup</key>
+	<false/>
+	<key>CFBundleDisplayName</key>
+	<string>PHZH Printing</string>
+	<key>CFBundleIdentifier</key>
+	<string>ch.futurelab.phzh-printing</string>
+	<key>CFBundleName</key>
+	<string>PHZH Printing</string>
+	<key>CloseBoxInsetX</key>
+	<integer>2</integer>
+	<key>CloseBoxInsetY</key>
+	<integer>2</integer>
+	<key>MainHTML</key>
+	<string>main.html</string>
+	<key>CFBundleVersion</key>
+	<string>1.5</string>
+	<key>TargetCFBundleShortVersionString</key>
+	<string>1.5</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.5, ©2006-2008 futureLAB AG</string>
+</dict>
+</plist>
