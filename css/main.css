@@ -24,17 +24,17 @@ div#listPrinters {
 }
 
 div#error {
-	color: red;
+	color: #FFB188;
 	position: absolute;
-	left: 100px;
+	left: 102px;
 	bottom: 70px;
 	width: 200px;
 }
 
 div#status {
 	position: absolute;
-	left: 100px;
-	bottom: 100px;
+	left: 102px;
+	bottom: 110px;
 	width: 200px;
 }
 

@@ -3,12 +3,15 @@
 	futureLAB AG, Marc Liyanage <mliyanage@futurelab.ch>
 */
 
-var globalProgressIndicator;
-var WIDGET_VERSION;
-var PRINTER_PREFIX = 'phzhprint';
+
 var PRINTSERVER = 'gutenberg.org.phzh.int';
 var PRINTPPD = '/Library/Printers/PPDs/Contents/Resources/en.lproj/hp LaserJet 3015.gz';
 var PRINTQUEUE = 'DS114232';
+
+
+var globalProgressIndicator;
+var WIDGET_VERSION;
+var PRINTER_PREFIX = 'phzhprint';
 var CONFIGURED_USERNAME;
 
 
@@ -100,6 +103,7 @@ function createPrinterCallback(systemCall) {
 	}
 	alert('Printer created');
 	updateStatus();
+	$N('username').value = $N('password').value = '';
 }
 
 
@@ -139,7 +143,7 @@ function findWidgetVersionCallback(systemCall) {
 
 // Utility DOM functions
 function $N(name) {
-	return document.getElementsByName(name).item(0);
+	return $(document.getElementsByName(name).item(0));
 }
 
 // Utility functions
