@@ -88,6 +88,7 @@ input#password {
 	position: absolute;
 	left: 27px;
 	bottom: 22px;
+	cursor: pointer;
 }
 
 #progressindicator {
