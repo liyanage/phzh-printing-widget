@@ -8,7 +8,7 @@ var PRINTSERVER = 'gutenberg.org.phzh.int';
 var PRINTPPD = '/Library/Printers/PPDs/Contents/Resources/en.lproj/hp LaserJet 3015.gz';
 var PRINTQUEUE = 'DS114232';
 
-var DEBUG = 1;
+var DEBUG = 0;
 
 var globalProgressIndicator;
 var WIDGET_VERSION;
@@ -36,7 +36,6 @@ function commitPrefs() {
 function updateUi() {
 	setElementVisibilityById('createPrinter', ($N('username').value && $N('password').value));
 	clearErrorMessage();
-	if (DEBUG) setErrorMessage('DEBUG MODE');
 }
 
 
@@ -60,11 +59,13 @@ function updateStatusCallback(systemCall) {
 	if (!match) {
 		setLocalizedStatusMessage('No printer configured');
 		$('deletePrinter').hide();
+		if (DEBUG) $('error').update('*** DEBUG MODE ***');
 		return;
 	}
 	CONFIGURED_USERNAME = match[1];
 	$('deletePrinter').show();
 	setStatusMessage(getLocalizedString('Printer is configured for user') + CONFIGURED_USERNAME);
+	if (DEBUG) $('error').update('*** DEBUG MODE ***');
 }
 
 
