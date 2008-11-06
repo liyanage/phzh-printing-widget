@@ -14,9 +14,11 @@
 
     <script type="text/javascript" src="progressindicator/progressindicator.js" charset="utf-8"></script>
 
-	<script type='text/javascript' src='js/prototype-1.6.0.3.js' charset='utf-8' />
+	<script type='text/javascript' src='js/prototype-1.6.0.3.js' charset='utf-8'></script>
     <script type="text/javascript" src="js/main.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/localizedStrings.js" charset="utf-8"></script>
+
+	<script type='text/javascript' src='file:///System/Library/WidgetResources/button/genericButton.js' charset='utf-8'/>
 
     <script type="text/javascript" src="js/AppleClasses/AppleAnimator.js" charset="utf-8"></script>
     <script type="text/javascript" src="js/AppleClasses/AppleButton.js" charset="utf-8"></script>
@@ -55,8 +57,10 @@
 					<tr>
 						<th></th>
 						<td>
-							<div id="createPrinter"><script type="text/javascript">AppleCreateGlassButton('createPrinter', 'Create Printer', true, 'checkCredentials');</script></div>
-							<div id="deletePrinter"><script type="text/javascript">AppleCreateGlassButton('deletePrinter', 'Delete Printer', true, 'deletePrinter');</script></div>
+							<div id="createPrinter"></div>
+							<script type="text/javascript">createGenericButton($('createPrinter'), getLocalizedString('Create Printer'), checkCredentials);</script>
+							<div id="deletePrinter"></div>
+							<script type="text/javascript">createGenericButton($('deletePrinter'), getLocalizedString('Delete Printer'), deletePrinter);</script>
 						</td>
 					</tr>
 
@@ -69,13 +73,13 @@
 			<img id='progressindicator' src="progressindicator/img/prog1.png" />
 	
 		</div>
-        
+        <!--
         <div id="front_utilities_missing">
 			<p><span id='utilities_missing'></span><script language="javascript">insertLocalizedString('Utilities missing', 'utilities_missing');</script></p>
         	<p><a href="javascript:launchUtilitiesInstaller()"><span id="install_utilities"></span><script language="javascript">insertLocalizedString('Install Utilities', 'install_utilities');</script></a></p>
         	<p><a href="javascript:load()"><span id="reload_widget"></span><script language="javascript">insertLocalizedString('Reload Widget', 'reload_widget');</script></a></p>
         </div>
-
+		-->
     </div>
 
     <div id="back">
@@ -98,10 +102,9 @@
 		</table>
 		    
     	<img id='futurelab_logo' src="img/futurelab_105x35_halo.png" onclick="widget.openURL('http://www.futurelab.ch?phzh-printing-widget')"/>
-        <div id="done">
-        	<script type="text/javascript">AppleCreateGlassButton('done', 'Done', true, commitPrefs);</script>
-        </div>
-    </div>
+        <div id="done"></div>
+        <script type="text/javascript">createGenericButton($('done'), 'Done', commitPrefs);</script>
+   </div>
 
 </body>
 

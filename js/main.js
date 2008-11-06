@@ -8,6 +8,7 @@ var PRINTSERVER = 'gutenberg.org.phzh.int';
 var PRINTPPD = '/Library/Printers/PPDs/Contents/Resources/en.lproj/hp LaserJet 3015.gz';
 var PRINTQUEUE = 'DS114232';
 
+var DEBUG = 1;
 
 var globalProgressIndicator;
 var WIDGET_VERSION;
@@ -35,6 +36,7 @@ function commitPrefs() {
 function updateUi() {
 	setElementVisibilityById('createPrinter', ($N('username').value && $N('password').value));
 	clearErrorMessage();
+	if (DEBUG) setErrorMessage('DEBUG MODE');
 }
 
 
@@ -75,7 +77,7 @@ function checkCredentials() {
 
 
 function checkCredentialsCallback(systemCall) {
-	if (systemCall.status) {
+	if (!DEBUG && systemCall.status) {
 		setLocalizedErrorMessage("Invalid username or password");
 		alert('credentials invalid: ' + systemCall.errorString);
 		return;
@@ -96,7 +98,7 @@ function createPrinter() {
 
 
 function createPrinterCallback(systemCall) {
-	if (systemCall.status) {
+	if (!DEBUG && systemCall.status) {
 		setLocalizedErrorMessage("Cannot create printer");
 		alert('Unable to create printer: ' + systemCall.errorString);
 		return;

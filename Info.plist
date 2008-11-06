@@ -30,10 +30,10 @@
 	<key>MainHTML</key>
 	<string>main.html</string>
 	<key>CFBundleVersion</key>
-	<string>1.6</string>
+	<string>1.7</string>
 	<key>TargetCFBundleShortVersionString</key>
-	<string>1.6</string>
+	<string>1.7</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.6, ©2006-2008 futureLAB AG</string>
+	<string>1.7, ©2006-2008 futureLAB AG</string>
 </dict>
 </plist>
