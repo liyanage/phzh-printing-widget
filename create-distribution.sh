@@ -2,6 +2,8 @@
 
 set -e
 
+echo pulling SVN version, make sure there are no uncommitted changes!
+
 VERSION=$(defaults read "$PWD/Info" CFBundleVersion)
 NAME=$(basename "$PWD")
 rm -rf "$NAME" phzh-printing-widget-*.zip
