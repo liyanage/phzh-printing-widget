@@ -4,13 +4,32 @@
 */
 
 
-var PRINTSERVER = 'gutenberg.org.phzh.int';
-var PRINTPPD = '/Library/Printers/PPDs/Contents/Resources/en.lproj/hp LaserJet 3015.gz';
-var PRINTQUEUE = 'DS114232';
+//var PRINTSERVER = 'gutenberg.org.phzh.int';
+var PRINTSERVER = 'postscript.phzh.int';
+
+var PRINTER_SET = [
+	{
+		label:      'Drucker',
+		prefix:     'printer',
+//		ppd:        '/Library/Printers/PPDs/Contents/Resources/RICOH Aficio MP C2800',
+		ppd:        '/Library/Printers/PPDs/Contents/Resources/de.lproj/RICOH Aficio MP C2800',
+		queue:      'Farbdrucker',
+		colormodel: 'CMYK'
+	},
+/*
+	{
+		label:      'Schwarzweissdrucker',
+		prefix:     'mono',
+//		ppd:        '/Library/Printers/PPDs/Contents/Resources/RICOH Aficio MP C2800',
+		ppd:        '/Library/Printers/PPDs/Contents/Resources/de.lproj/RICOH Aficio MP C2800',
+		queue:      'Schwarzweissdrucker',
+		colormodel: 'Gray'
+	}
+*/
+];
 
 var DEBUG = 0;
 
-var globalProgressIndicator;
 var WIDGET_VERSION;
 var PRINTER_PREFIX = 'phzhprint';
 var CONFIGURED_USERNAME;
@@ -18,7 +37,6 @@ var CONFIGURED_USERNAME;
 
 function load() {
 	findWidgetVersion();
-	globalProgressIndicator = new ProgressIndicator($('progressindicator'), "progressindicator/img/prog");
 	updateUi();
 	updateStatus();
 	widget.onshow = window.onfocus = updateStatus;
@@ -54,7 +72,7 @@ function updateStatusCallback(systemCall) {
 	CONFIGURED_USERNAME = '';
 	var output = systemCall.outputString;
 	
-	var re = new RegExp('^' + PRINTER_PREFIX + '-(\\S+)', 'mg');
+	var re = new RegExp('^' + PRINTER_PREFIX + '-\\w+-(\\S+)', 'mg');
 	var match = re.exec(output);
 	if (!match) {
 		setLocalizedStatusMessage('No printer configured');
@@ -90,11 +108,18 @@ function checkCredentialsCallback(systemCall) {
 
 
 function createPrinter() {
+	var username = $N('username').value;
 	var userDomain = $N('userdomain').value;
-	var printerName = PRINTER_PREFIX + '-' + $N('username').value;
-	var printerUri = "smb://" + $N('username').value + ":" + $N('password').value + "@" + userDomain + "/" + PRINTSERVER + ":139/" + PRINTQUEUE;
-	var cmd = "lpadmin -p " + printerName + " -v " + printerUri + " -E -P '" + PRINTPPD + "'";
-	widget.system(cmd, createPrinterCallback);
+
+	PRINTER_SET.each(function (i) {
+		var printerName = PRINTER_PREFIX + '-' + i.prefix + '-' + username;
+		var printerUri = "smb://" + username + ":" + $N('password').value + "@" + userDomain + "/" + PRINTSERVER + ":139/" + i.queue;
+		var printerDescription = "PHZH " + i.label + " (" + username + ")";
+		var cmd = "lpadmin -o printer-is-shared=false -o DefaultColorModel=" + i.colormodel + " -o ColorModel=" + i.colormodel + " -p '" + printerName + "' -D '" + printerDescription + "' -v " + printerUri + " -E -P '" + i.ppd + "'";
+		//alert(cmd);
+		widget.system(cmd, createPrinterCallback);
+	});
+
 }
 
 
@@ -112,9 +137,13 @@ function createPrinterCallback(systemCall) {
 
 function deletePrinter() {
 	if (!CONFIGURED_USERNAME) return;
-	var printerName = PRINTER_PREFIX + '-' + CONFIGURED_USERNAME;
-	var cmd = '/usr/sbin/lpadmin -x ' + printerName;
-	widget.system(cmd, deletePrinterCallback);
+
+	PRINTER_SET.each(function (i) {
+		var printerName = PRINTER_PREFIX + '-' + i.prefix + '-' + CONFIGURED_USERNAME;
+		var cmd = "/usr/sbin/lpadmin -x '" + printerName + "'";
+		widget.system(cmd, deletePrinterCallback);
+	});
+
 }
 
 
