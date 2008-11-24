@@ -1,0 +1,42 @@
+#!/usr/bin/perl
+
+my $OS_VER = "";
+my $CH_VER = "";
+my $RENM = 0;
+my $cmd = "";
+
+open( VEROUT, "/usr/bin/sw_vers |" );
+while( <VEROUT> ) {
+	my @fields = split '\s+', $_;
+	if ("$fields[0]" eq "ProductVersion:") {
+	$OS_VER = $fields[1];
+	}
+}
+close( VEROUT );
+
+$CH_VER = substr($OS_VER,3,1);
+
+$RENM = system("mv \"/Library/Printers/RICOH/Filters/jobLogFilterC\" \"/Library/Printers/RICOH/Filters/_jobLogFilterC\" ");
+
+
+## Part OS10.3.x or over##
+if ($CH_VER >= "3")
+{
+$RENM = system("mv \"/Library/Printers/RICOH/PDEs/ricohJobLogC.plugin\" \"/Library/Printers/RICOH/PDEs/_ricohJobLogC.plugin\" ");
+}
+
+## Part OS10.2.x ##
+elsif ($CH_VER == 2)
+{
+$RENM = system("mv \"/Library/Printers/PPD Plugins/ricohJobLogC.plugin\" \"/Library/Printers/PPD Plugins/_ricohJobLogC.plugin\" ");
+}
+
+
+## Part OS10.1.x or under##
+elsif ($CH_VER <= 1)
+{
+}
+
+
+
+exit 0;

@@ -165,9 +165,8 @@ table {
 }
 
 
-#front_utilities_missing {
-	display: none;
-	width: 300px;
+#front_driver_missing {
+	width: 290px;
 	margin: 10px;
 }
 

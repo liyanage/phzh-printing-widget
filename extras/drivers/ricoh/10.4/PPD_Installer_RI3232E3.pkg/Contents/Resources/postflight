@@ -1,0 +1,165 @@
+#!/usr/bin/perl
+
+my $OS_VER = "";
+my $CH_VER = 0;
+my $delP = 0;
+my $delF = 0;
+my $MVP = 0;
+my $RENM = 0;
+
+open( VEROUT, "/usr/bin/sw_vers |" );
+while( <VEROUT> ) {
+	my @fields = split '\s+', $_;
+	if ("$fields[0]" eq "ProductVersion:") {
+	$OS_VER = $fields[1];
+	}
+}
+close( VEROUT );
+
+$CH_VER = substr($OS_VER,3,1);
+
+## Part OS10.3.x or over##
+if ($CH_VER >= "3")
+{
+	$mkd_res = system("mkdir -m 775 /Library/Printers/RICOH/PDEs");
+	$MVP = system("mv \"/Library/Printers/PPD Plugins/ricohJobLog05AEU.plugin/\" \"/Library/Printers/RICOH/PDEs/\" ");
+
+	if (&ExistPlugCheck <= &InsPlugCheck){
+		$delP = system("rm -R \"/Library/Printers/RICOH/PDEs/_ricohJobLog05AEU.plugin\" ");
+		$delF = system("rm -R \"/Library/Printers/RICOH/Filters/_jobLogFilter05AEU\" ");
+	}
+	elsif (&ExistPlugCheck > &InsPlugCheck){
+		$delP = system("rm -R \"/Library/Printers/RICOH/PDEs/ricohJobLog05AEU.plugin\" ");
+		$RENM = system("mv \"/Library/Printers/RICOH/PDEs/_ricohJobLog05AEU.plugin\" \"/Library/Printers/RICOH/PDEs/ricohJobLog05AEU.plugin\" ");
+		$delF = system("rm -R \"/Library/Printers/RICOH/Filters/jobLogFilter05AEU\" ");
+		$RENM = system("mv \"/Library/Printers/RICOH/Filters/_jobLogFilter05AEU\" \"/Library/Printers/RICOH/Filters/jobLogFilter05AEU\" ");
+	}
+}
+
+
+## Part OS10.2.x ##
+elsif ($CH_VER == 2)
+{
+	if (&ExistPlugCheck2 <= &InsPlugCheck2){
+		$delP = system("rm -R \"/Library/Printers/PPD Plugins/_ricohJobLog05AEU.plugin\" ");
+		$delF = system("rm -R \"/Library/Printers/RICOH/Filters/_jobLogFilter05AEU\" ");
+	}
+	elsif (&ExistPlugCheck2 > &InsPlugCheck2){
+		$delP = system("rm -R \"/Library/Printers/PPD Plugins/ricohJobLog05AEU.plugin\" ");
+		$RENM = system("mv \"/Library/Printers/PPD Plugins/_ricohJobLog05AEU.plugin\" \"/Library/Printers/PPD Plugins/ricohJobLog05AEU.plugin\" ");
+		$delF = system("rm -R \"/Library/Printers/RICOH/Filters/jobLogFilter05AEU\" ");
+		$RENM = system("mv \"/Library/Printers/RICOH/Filters/_jobLogFilter05AEU\" \"/Library/Printers/RICOH/Filters/jobLogFilter05AEU\" ");
+	}
+}
+
+
+## Part OS10.1.x or under##
+elsif ($CH_VER <= 1)
+{
+	$delF = system("rm -R \"/Library/Printers/RICOH/Filters/jobLogFilter05AEU\" ");
+	$delP = system("rm -R \"/Library/Printers/PPD Plugins/ricohJobLog05AEU.plugin\" ");
+}
+
+else
+{
+}
+
+exit 0;
+
+
+
+##########################
+sub ExistPlugCheck
+{
+	my $count = 0;
+	my $plchline = 0;
+
+	open (INFILEEXIST, '/Library/Printers/RICOH/PDEs/_ricohJobLog05AEU.plugin/Contents/Info.plist');
+	while (<INFILEEXIST>){
+		$count++;
+		chomp($_);
+		if ($_ eq "	<key>CFBundleShortVersionString</key>"){
+			$plchline = $count + 1;
+		}
+		if ($count == $plchline){
+			return(substr($_,9,4)); 
+		}
+	}
+}
+
+
+
+sub InsPlugCheck
+{
+	my $plchverins = "";
+	my $count = 0;
+	my $plchline = 0;
+
+	open (INFILEINS, '/Library/Printers/RICOH/PDEs/ricohJobLog05AEU.plugin/Contents/Info.plist');
+	while (<INFILEINS>){
+		$count++;
+		chomp($_);
+		if ($_ eq "	<key>CFBundleShortVersionString</key>"){
+			$plchline = $count + 1;
+		}
+		if ($count == $plchline){
+			$plchverins = substr($_,9,4);
+			return(substr($_,9,4));
+		}
+	}
+}
+
+
+sub ExistPlugCheck2
+{
+	my $count = 0;
+	my $plchline = 0;
+
+	open (INFILEEXIST, '/Library/Printers/PPD Plugins/_ricohJobLog05AEU.plugin/Contents/Info.plist');
+	while (<INFILEEXIST>){
+		$count++;
+		chomp($_);
+		if ($_ eq "	<key>CFBundleShortVersionString</key>"){
+			$plchline = $count + 1;
+		}
+		if ($count == $plchline){
+			return(substr($_,9,4)); 
+		}
+	}
+}
+
+
+
+sub InsPlugCheck2
+{
+	my $plchverins = "";
+	my $count = 0;
+	my $plchline = 0;
+
+	open (INFILEINS, '/Library/Printers/PPD Plugins/ricohJobLog05AEU.plugin/Contents/Info.plist');
+	while (<INFILEINS>){
+		$count++;
+		chomp($_);
+		if ($_ eq "	<key>CFBundleShortVersionString</key>"){
+			$plchline = $count + 1;
+		}
+		if ($count == $plchline){
+			$plchverins = substr($_,9,4);
+			return(substr($_,9,4));
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

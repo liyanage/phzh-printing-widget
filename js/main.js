@@ -11,8 +11,6 @@ var PRINTER_SET = [
 	{
 		label:      'Drucker',
 		prefix:     'printer',
-//		ppd:        '/Library/Printers/PPDs/Contents/Resources/RICOH Aficio MP C2800',
-		ppd:        '/Library/Printers/PPDs/Contents/Resources/de.lproj/RICOH Aficio MP C2800',
 		queue:      'Farbdrucker',
 		colormodel: 'CMYK'
 	},
@@ -20,26 +18,121 @@ var PRINTER_SET = [
 	{
 		label:      'Schwarzweissdrucker',
 		prefix:     'mono',
-//		ppd:        '/Library/Printers/PPDs/Contents/Resources/RICOH Aficio MP C2800',
-		ppd:        '/Library/Printers/PPDs/Contents/Resources/de.lproj/RICOH Aficio MP C2800',
 		queue:      'Schwarzweissdrucker',
 		colormodel: 'Gray'
 	}
 */
 ];
 
+
+var DRIVERS = [
+	{
+		os_regex: /^10.5/,
+		ppd_path: '/Library/Printers/PPDs/Contents/Resources/RICOH Aficio MP C2800',
+		driver_file: 'extras/drivers/ricoh/10.5/PPD_Installer_RI3232E3L.pkg'
+	},
+	{
+		os_regex: /^10.4/,
+		ppd_path: '/Library/Printers/PPDs/Contents/Resources/de.lproj/RICOH Aficio MP C2800',
+		driver_file: 'extras/drivers/ricoh/10.4/PPD_Installer_RI3232E3.pkg'
+	}
+];
+
+
 var DEBUG = 0;
 
 var WIDGET_VERSION;
 var PRINTER_PREFIX = 'phzhprint';
 var CONFIGURED_USERNAME;
+var OS_VERSION;
+var OS_DRIVER;
 
 
 function load() {
+	alert('load');
 	findWidgetVersion();
-	updateUi();
-	updateStatus();
-	widget.onshow = window.onfocus = updateStatus;
+	findOsVersion();
+}
+
+
+function findOsVersion(systemCall) {
+	if (!systemCall) {
+		widget.system("/usr/bin/sw_vers -productVersion", findOsVersion);
+		return;
+	}
+
+	if (systemCall.status) {
+	    alert("widget.system() failed. " + systemCall.errorString);
+	    return;
+	}
+
+	OS_VERSION = systemCall.outputString;
+	$('os_version').update(OS_VERSION);
+	
+	DRIVERS.each(function (i) {
+		if (OS_VERSION.match(i.os_regex)) {
+			OS_DRIVER = i;
+			throw $break;
+		}
+	});
+	
+	if (!OS_DRIVER) {
+	    alert("Unable to find driver for this OS version");
+	    return;
+	}
+
+	checkDriver();
+
+}
+
+
+function findWidgetVersion() {
+	var cmd = "echo \"<xsl:stylesheet version='1.0' xmlns:xsl='http://www.w3.org/1999/XSL/Transform'><xsl:output omit-xml-declaration='yes'/><xsl:template match='/*'><xsl:value-of select='//string[preceding-sibling::key[1] = &quot;CFBundleVersion&quot;]'/></xsl:template></xsl:stylesheet>\" | xsltproc - Info.plist";
+	widget.system(cmd, findWidgetVersionCallback);
+}
+
+
+function findWidgetVersionCallback(systemCall) {
+	if (systemCall.status) {
+	    alert("widget.system() failed. " + systemCall.errorString);
+	    return;
+	}
+	WIDGET_VERSION = systemCall.outputString;
+	$('widget_version').update(WIDGET_VERSION);
+
+}
+
+
+function checkDriver(systemCall) {
+	if (!systemCall) {
+		var cmd = "/bin/test -e '" + OS_DRIVER.ppd_path + "'";
+		widget.system(cmd, checkDriver);
+		return;
+	}
+	
+	if (systemCall.status) {
+		$('front_driver_missing').show();
+		$('front_regular').hide();
+		widget.onshow = window.onfocus = load;
+		return;
+	}
+
+	$('front_driver_missing').hide();
+	$('front_regular').show();
+
+	//alert('PPD ' + OS_DRIVER.ppd_path + ' found');
+	
+  	updateUi();
+  	updateStatus();
+  	widget.onshow = window.onfocus = updateStatus;
+
+}
+
+
+function launchDriverInstaller() {
+	alert('installing driver');
+	var cmd = "open '" + OS_DRIVER.driver_file + "'";
+	widget.system(cmd);
 }
 
 
@@ -115,7 +208,7 @@ function createPrinter() {
 		var printerName = PRINTER_PREFIX + '-' + i.prefix + '-' + username;
 		var printerUri = "smb://" + username + ":" + $N('password').value + "@" + userDomain + "/" + PRINTSERVER + ":139/" + i.queue;
 		var printerDescription = "PHZH " + i.label + " (" + username + ")";
-		var cmd = "lpadmin -o printer-is-shared=false -o DefaultColorModel=" + i.colormodel + " -o ColorModel=" + i.colormodel + " -p '" + printerName + "' -D '" + printerDescription + "' -v " + printerUri + " -E -P '" + i.ppd + "'";
+		var cmd = "lpadmin -o printer-is-shared=false -o DefaultColorModel=" + i.colormodel + " -o ColorModel=" + i.colormodel + " -p '" + printerName + "' -D '" + printerDescription + "' -v " + printerUri + " -E -P '" + OS_DRIVER.ppd_path + "'";
 		//alert(cmd);
 		widget.system(cmd, createPrinterCallback);
 	});

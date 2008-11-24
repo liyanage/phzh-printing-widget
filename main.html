@@ -6,6 +6,7 @@
 <html>
 
 <head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
 	<style type="text/css">
 		@import "css/main.css";
@@ -40,7 +41,6 @@
 			</div>
 	
 			<table>
-	
 				<tbody id="login">
 					<tr>
 						<th>Username</th>
@@ -61,22 +61,23 @@
 							<script type="text/javascript">createGenericButton($('deletePrinter'), getLocalizedString('Delete Printer'), deletePrinter);</script>
 						</td>
 					</tr>
-
+				</tbody>
 			</table>
 	
-			<div id="error">ads</div>
-			<div id="status">asd</div>
+			<div id="error">error</div>
+			<div id="status">status</div>
 			
 			<img id='logo' src="img/phzh-logo.png" onclick="widget.openURL('https://id.phzh.ch/')"/>
 	
 		</div>
-        <!--
-        <div id="front_utilities_missing">
-			<p><span id='utilities_missing'></span><script language="javascript">insertLocalizedString('Utilities missing', 'utilities_missing');</script></p>
-        	<p><a href="javascript:launchUtilitiesInstaller()"><span id="install_utilities"></span><script language="javascript">insertLocalizedString('Install Utilities', 'install_utilities');</script></a></p>
-        	<p><a href="javascript:load()"><span id="reload_widget"></span><script language="javascript">insertLocalizedString('Reload Widget', 'reload_widget');</script></a></p>
+
+        <div id="front_driver_missing" style='display: none;'>
+			<p><span id='driver_missing'></span><script language="javascript">insertLocalizedString('Driver missing', 'driver_missing');</script></p>
+        	<!--<p><a href="javascript:launchDriverInstaller()">➔ <span id="install_driver"></span><script language="javascript">insertLocalizedString('Install Driver', 'install_driver');</script></a></p>-->
+			<div id="install_driver"></div>
+			<script type="text/javascript">createGenericButton($('install_driver'), getLocalizedString('Install Driver'), launchDriverInstaller);</script>
         </div>
-		-->
+
     </div>
 
     <div id="back">
@@ -96,6 +97,7 @@
 			<tr><th>Workgroup</th><td class="configvalue"><span id='printserver_workgroup'></span></td></tr>
 			-->
 			<tr><th>Widget Version</th><td class="configvalue"><span id='widget_version'></span></td></tr>
+			<tr><th>OS Version</th><td class="configvalue"><span id='os_version'></span></td></tr>
 		</table>
 		    
     	<img id='futurelab_logo' src="img/futurelab_105x35_halo.png" onclick="widget.openURL('http://www.futurelab.ch?phzh-printing-widget')"/>
@@ -109,3 +111,8 @@
 
 
 
+<!-- 
+Local Variables:
+coding: utf-8
+End:
+ -->

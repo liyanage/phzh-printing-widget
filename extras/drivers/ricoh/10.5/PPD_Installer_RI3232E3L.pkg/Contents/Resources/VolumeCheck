@@ -1,0 +1,37 @@
+#!/usr/bin/perl
+
+my $EXIT_VALUE 	= 0;
+my $SYSTEMVERS	= "$ARGV[0]"."/System/Library/CoreServices/SystemVersion.plist";
+my $CUR_VOL	= "$ARGV[0]";
+
+my $OS_VER = "";
+my $CH_VER = 0;
+
+open( VEROUT, "/usr/bin/sw_vers |" );
+while( <VEROUT> ) {
+	my @fields = split '\s+', $_;
+	if ("$fields[0]" eq "ProductVersion:") {
+	$OS_VER = $fields[1];
+	}
+}
+close( VEROUT );
+$CH_VER = substr($OS_VER,3,1);
+
+
+{
+	if("$CH_VER" < 5)
+	{  
+		$EXIT_VALUE =  ( (1 << 5) | 18);
+	}
+
+	if(! -e "$SYSTEMVERS")
+	{  
+		$EXIT_VALUE =  ( 1 << 5 );
+	}
+	if("$CUR_VOL" ne "/")
+    	{
+		$EXIT_VALUE =  ( 1 << 5);
+    	}
+}
+
+exit($EXIT_VALUE);

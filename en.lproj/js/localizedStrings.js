@@ -11,9 +11,8 @@ var localizedStrings = {
 	'Reload Widget' : 'Widget neustarten',
 	'No printer configured' : 'Kein Drucker konfiguriert',
 	'Printer is configured for user' : 'Drucker ist konfiguriert für Benutzer ',
+	'Driver missing' : "Der Druckertreiber für PHZH Drucker ist auf diesem Macintosh nicht installiert.",
+	'Install Driver' : "Druckertreiber installieren",
 	'Invalid username or password' : 'Benutzername oder Passwort ungültig'
 };
 
-// Local Variables:
-// coding: utf-8;
-// End:

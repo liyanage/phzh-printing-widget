@@ -1,0 +1,18 @@
+#!/usr/bin/perl
+
+my $EXIT_VALUE 	= 0;
+my $SYSTEMVERS	= "$ARGV[0]"."/System/Library/CoreServices/SystemVersion.plist";
+my $CUR_VOL	= "$ARGV[0]";
+
+{
+	if(! -e "$SYSTEMVERS")
+	{  
+		$EXIT_VALUE =  ( 1 << 5 );
+	}
+	if("$CUR_VOL" ne "/")
+    	{
+		$EXIT_VALUE =  ( 1 << 5);
+    	}
+}
+
+exit($EXIT_VALUE);
