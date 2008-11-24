@@ -159,8 +159,11 @@ function updateStatus() {
 
 function updateStatusCallback(systemCall) {
 	if (systemCall.status) {
-		setLocalizedErrorMessage("Unable to list printers: " + systemCall.errorString);
-		return;
+		// The No destinations added error is not really an error but simply means that no printers are configured
+		if (!(systemCall.errorString && systemCall.errorString.match(/No destinations added/))) {
+			setLocalizedErrorMessage("Unable to list printers: " + systemCall.errorString);
+			return;
+		}
 	}
 	CONFIGURED_USERNAME = '';
 	var output = systemCall.outputString;
