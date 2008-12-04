@@ -132,7 +132,8 @@ function checkDriver(systemCall) {
 function launchDriverInstaller() {
 	alert('installing driver');
 	var cmd = "open '" + OS_DRIVER.driver_file + "'";
-	widget.system(cmd);
+	widget.system(cmd, null);
+	widget.openApplication('com.apple.installer');
 }
 
 
