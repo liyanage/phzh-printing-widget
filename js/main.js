@@ -27,7 +27,7 @@ var PRINTER_SET = [
 
 var DRIVERS = [
 	{
-		os_regex: /^10.5/,
+		os_regex: /^10.(5|6)/,
 		ppd_path: '/Library/Printers/PPDs/Contents/Resources/RICOH Aficio MP C2800',
 		driver_file: 'extras/drivers/ricoh/10.5/PPD_Installer_RI3232E3L.pkg'
 	},

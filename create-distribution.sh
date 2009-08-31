@@ -2,7 +2,7 @@
 
 set -e
 
-echo pulling SVN version, make sure there are no uncommitted changes!
+[[ $(svnversion) =~ M ]] && { echo working copy modified, please check in changes; exit ; }
 
 VERSION=$(defaults read "$PWD/Info" CFBundleVersion)
 NAME=$(basename "$PWD")
