@@ -2,12 +2,11 @@
 
 set -e
 
-#[[ $(svnversion) =~ M ]] && { echo working copy modified, please check in changes; exit ; }
-
 VERSION=$(defaults read "$PWD/Info" CFBundleVersion)
-NAME=$(basename "$PWD")
+NAME="PHZH Printing.wdgt"
 rm -rf "$NAME" phzh-printing-widget-*.zip
-svn export https://svn.futurelab.ch/repos/futurelab/projects/phzh/PHZH%20Printing.wdgt
+mkdir "$NAME"
+tar --exclude .git --exclude "$NAME" -cv - . | (cd "$NAME"; tar -xf -)
 zip -r phzh-printing-widget-$VERSION.zip "$NAME"
 rm -rf "$NAME"
 
