@@ -2,7 +2,7 @@
 
 set -e
 
-[[ $(svnversion) =~ M ]] && { echo working copy modified, please check in changes; exit ; }
+#[[ $(svnversion) =~ M ]] && { echo working copy modified, please check in changes; exit ; }
 
 VERSION=$(defaults read "$PWD/Info" CFBundleVersion)
 NAME=$(basename "$PWD")
