@@ -27,7 +27,12 @@ var PRINTER_SET = [
 
 var DRIVERS = [
 	{
-		os_regex: /^10.(5|6)/,
+		os_regex: /^10.6/,
+		ppd_path: '/Library/Printers/PPDs/Contents/Resources/RICOH Aficio MP C2800',
+		driver_file: 'extras/drivers/ricoh/10.6/PPD_Installer_RI3232E3L.pkg'
+	},
+	{
+		os_regex: /^10.5/,
 		ppd_path: '/Library/Printers/PPDs/Contents/Resources/RICOH Aficio MP C2800',
 		driver_file: 'extras/drivers/ricoh/10.5/PPD_Installer_RI3232E3L.pkg'
 	},
@@ -161,7 +166,7 @@ function updateStatus() {
 function updateStatusCallback(systemCall) {
 	if (systemCall.status) {
 		// The No destinations added error is not really an error but simply means that no printers are configured
-		if (!(systemCall.errorString && systemCall.errorString.match(/No destinations added/))) {
+		if (!(systemCall.errorString && systemCall.errorString.match(/No destinations added|Keine Ziele/))) {
 			setLocalizedErrorMessage("Unable to list printers: " + systemCall.errorString);
 			return;
 		}
